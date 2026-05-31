@@ -4,30 +4,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Berserk Hub — Encyclopédie non officielle dédiée à l'œuvre de Kentaro Miura." />
-  <title>Berserk Hub</title>
+  <meta name="description" content="Berserk Hub — Encyclopédie non officielle de Berserk, hommage à Kentaro Miura." />
+  <title>Berserk Hub — Encyclopédie Dark Fantasy</title>
 
   <!-- Feuille de styles principale -->
   <link rel="stylesheet" href="css/style.css" />
 
   <!--
-    ╔══════════════════════════════════════════════════════════╗
-    ║  CITATIONS ALÉATOIRES — Script exécuté avant le rendu   ║
-    ║  pour éviter un flash de contenu vide.                  ║
-    ║  Les citations sont dans un tableau JS simple.          ║
-    ╚══════════════════════════════════════════════════════════╝
+  ╔══════════════════════════════════════════════════════╗
+  ║  SCRIPT : Citations aléatoires au chargement de la  ║
+  ║  page (tableau simple, aucune dépendance externe).  ║
+  ╚══════════════════════════════════════════════════════╝
   -->
   <script>
-    // ── Tableau des citations ──────────────────────────────────
-    // Ajoute ou remplace les citations ici librement.
-    // Format : { text: "La réplique", author: "Le personnage" }
+    // ── Tableau des citations ─────────────────────────────
+    // Pour ajouter une citation : ajoute un objet { text, author }
     const QUOTES = [
       {
         text: "Dans ce monde, la loi de l'acier et du sang est la seule vérité qui ne mente jamais.",
         author: "Griffith"
       },
       {
-        text: "Je veux un endroit où je peux mourir sans regret. Est-ce trop demander ?",
+        text: "Je veux juste trouver un endroit où je peux mourir sans regret.",
         author: "Guts"
       },
       {
@@ -39,26 +37,21 @@
         author: "Guts"
       },
       {
-        text: "Il n'y a pas de paradis, ni de dieu unique pour nous guider. L'obscurité est tout ce qui nous reste.",
+        text: "Il n'y a pas de paradis, ni de dieu unique pour nous guider. Seule l'obscurité demeure.",
         author: "Void"
       }
     ];
 
-    // ── Sélection aléatoire ────────────────────────────────────
-    // Math.random() × longueur du tableau, arrondi vers le bas
-    // → donne un index entre 0 et QUOTES.length - 1
-    const randomIndex = Math.floor(Math.random() * QUOTES.length);
-    const selectedQuote = QUOTES[randomIndex];
+    // ── Sélection aléatoire ──────────────────────────────
+    const idx = Math.floor(Math.random() * QUOTES.length);
 
-    // ── Injection dans le DOM dès que le HTML est parsé ────────
-    // On utilise DOMContentLoaded pour être sûr que les éléments existent
+    // ── Injection au chargement du DOM ──────────────────
     document.addEventListener("DOMContentLoaded", function () {
-      const textEl   = document.getElementById("quote-text");
-      const authorEl = document.getElementById("quote-author");
-
+      const textEl   = document.getElementById("rnd-quote-text");
+      const authorEl = document.getElementById("rnd-quote-author");
       if (textEl && authorEl) {
-        textEl.textContent   = '"' + selectedQuote.text + '"';
-        authorEl.textContent = "— " + selectedQuote.author;
+        textEl.textContent   = "\u201C" + QUOTES[idx].text + "\u201D";
+        authorEl.textContent = "\u2014 " + QUOTES[idx].author;
       }
     });
   </script>
@@ -66,222 +59,313 @@
 
 <body>
 
-  <!-- ══════════════════════════════════════════════════════════
-       HEADER — barre de navigation fixe en haut
-       ══════════════════════════════════════════════════════════ -->
-  <header class="site-header" role="banner">
+  <!-- ============================================================
+       BANNIÈRE PRINCIPALE (Header)
+       Grande bannière de fan-site : titre massif gothique,
+       texture métal rouillé simulée, ornements décoratifs.
+       ============================================================ -->
+  <header class="site-banner" role="banner">
+    <div class="banner-inner">
 
-    <!-- Logo textuel dans la nav -->
-    <a href="index.html" class="header-logo" aria-label="Retour à l'accueil">
-      B E R S E R K
-    </a>
+      <!-- Ornements horizontaux (lignes + runes) -->
+      <div class="banner-ornament" aria-hidden="true">
+        <span class="banner-ornament-line"></span>
+        <span class="banner-ornament-rune">· ✦ ·</span>
+        <span class="banner-ornament-line right"></span>
+      </div>
 
-    <!-- Liens de navigation principaux -->
-    <nav aria-label="Navigation principale">
-      <ul class="nav-links">
-        <li><a href="#pillars">Explorer</a></li>
-        <li><a href="#">Chronologie</a></li>
-        <li><a href="#">Théories</a></li>
-        <li><a href="#">À propos</a></li>
-      </ul>
-    </nav>
+      <!-- Titre principal -->
+      <h1 class="banner-title">Berserk Hub</h1>
 
-  </header><!-- /site-header -->
+      <!-- Sous-titre -->
+      <p class="banner-subtitle">
+        Encyclopédie non officielle &nbsp;·&nbsp; Hommage à Kentaro Miura
+      </p>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       HERO SECTION — zone principale d'accueil
-       ══════════════════════════════════════════════════════════ -->
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-
-      <!-- Ornement graphique décoratif -->
-      <div class="hero-ornament" aria-hidden="true">
+      <!-- Ligne déco du bas -->
+      <div class="banner-deco-bottom" aria-hidden="true">
         <span></span>
       </div>
 
-      <!-- ── Titre principal massif ── -->
-      <h1 class="hero-title" id="hero-title">
-        Berserk Hub
-      </h1>
+    </div>
+  </header><!-- /site-banner -->
 
-      <!-- ── Sous-titre / tagline ── -->
-      <p class="hero-subtitle">
-        Encyclopédie non officielle · Hommage à Kentaro Miura
-      </p>
 
-      <!-- ── Bloc citation aléatoire ──
-           Les ids "quote-text" et "quote-author" sont ciblés par le JS
-           dans le <head> pour y injecter la citation sélectionnée.     -->
-      <blockquote class="quote-block" aria-live="polite">
-        <p class="quote-text" id="quote-text">
-          <!-- Texte de la citation injecté par JavaScript -->
-          Chargement de la citation…
-        </p>
-        <footer class="quote-author" id="quote-author">
-          <!-- Auteur injecté par JavaScript -->
-        </footer>
-      </blockquote>
+  <!-- ============================================================
+       BARRE DE NAVIGATION HORIZONTALE
+       Sticky sous la bannière, liens avec effet hover rouge sang.
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Navigation principale">
+    <div class="nav-inner">
+      <a href="#pillars" class="active">&#8962; Accueil</a>
+      <a href="#">Explorer</a>
+      <a href="#">Chronologie</a>
+      <a href="#">Théories</a>
+      <a href="#">À propos</a>
+    </div>
+  </nav><!-- /site-nav -->
 
-      <!-- ── Barre de recherche (visuel uniquement — sans JS pour l'instant) ── -->
-      <div class="search-wrapper" role="search">
-        <!-- Icône loupe (caractère Unicode) -->
-        <span class="search-icon" aria-hidden="true">&#128269;</span>
 
+  <!-- ============================================================
+       WRAPPER PRINCIPAL — 2 colonnes (contenu + sidebar)
+       ============================================================ -->
+  <div class="page-wrapper">
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         COLONNE PRINCIPALE (gauche, ~75%)
+         ────────────────────────────────────────────────────────── -->
+    <main class="main-content" role="main">
+
+      <!-- Barre de titre de la section principale -->
+      <div class="section-title-bar">
+        <span class="title-icon" aria-hidden="true">⚔</span>
+        <h2>Les Piliers du Hub</h2>
+      </div>
+
+      <!-- Citation héro avec attribution (injectée par JS au chargement) -->
+      <div class="hero-quote" role="complementary" aria-label="Citation du jour">
+        <p id="rnd-quote-text">Chargement de la citation…</p>
+        <cite id="rnd-quote-author"></cite>
+      </div>
+
+      <!-- Barre de recherche principale (visuel + fonctionnel HTML natif) -->
+      <div class="hero-search" role="search">
         <input
-          class="search-bar"
-          type="search"
-          name="q"
+          type="text"
           placeholder="Rechercher un personnage, un arc, une citation…"
           aria-label="Rechercher dans Berserk Hub"
           autocomplete="off"
         />
-
-        <button class="search-btn" type="button" aria-label="Lancer la recherche">
-          Chercher
-        </button>
-      </div><!-- /search-wrapper -->
-
-      <!-- Indicateur de défilement vers le bas -->
-      <div class="scroll-hint" aria-hidden="true">
-        <div class="scroll-line"></div>
-        <span>Explorer</span>
+        <button type="button">&#128269; Chercher</button>
       </div>
 
-    </section><!-- /hero -->
-
-
-    <!-- ══════════════════════════════════════════════════════════
-         SECTION GRILLE DES PILIERS — le cœur du hub
-         ══════════════════════════════════════════════════════════ -->
-    <section class="pillars-section" id="pillars" aria-labelledby="pillars-title">
-
-      <!-- En-tête de section -->
-      <header class="section-header">
-        <span class="section-label">Explorations</span>
-        <h2 class="section-title" id="pillars-title">Les Piliers du Hub</h2>
-      </header>
-
-      <!-- ── Grille de 6 cartes ── -->
-      <!--
-        Structure d'une carte :
-        <a class="pillar-card" href="…">
-          <div class="card-icon">…</div>   ← icône Unicode
-          <h3 class="card-title">…</h3>    ← titre du pilier
-          <p class="card-desc">…</p>       ← courte description
-          <div class="card-footer">        ← infos + flèche
-            <span class="card-count">…</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </a>
-      -->
-      <div class="pillars-grid" role="list">
+      <!-- ────────────────────────────────────────────────────────
+           GRILLE DES 6 PILIERS
+           6 blocs cliquables, 3 colonnes sur desktop.
+           ──────────────────────────────────────────────────────── -->
+      <div class="pillars-grid" id="pillars" role="list" aria-label="Sections du hub">
 
         <!-- ── Carte 1 : Personnages ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Personnages">
-          <div class="card-icon" aria-hidden="true">⚔</div>
+          <span class="card-icon" aria-hidden="true">&#9876;</span>
           <h3 class="card-title">Personnages</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
-            Guts, Griffith, Casca, Judeau, Void… Plongez dans les profils complets
-            des protagonistes, antagonistes et figures secondaires qui peuplent le monde de Berserk.
+            Guts, Griffith, Casca, Judeau, Void… Profils complets des protagonistes,
+            antagonistes et figures majeures qui peuplent l'univers de Berserk.
           </p>
           <div class="card-footer">
             <span class="card-count">60+ fiches</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
         <!-- ── Carte 2 : Chapitres & Arcs ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Chapitres et Arcs narratifs">
-          <div class="card-icon" aria-hidden="true">📖</div>
+          <span class="card-icon" aria-hidden="true">&#128218;</span>
           <h3 class="card-title">Chapitres &amp; Arcs</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
-            De l'Arc du Faucon Noir à la Bataille de Falconia : résumés détaillés,
-            analyses narratives et chronologie complète des 374 épisodes du manga.
+            De l'Arc du Faucon Noir à Falconia : résumés détaillés, analyses narratives
+            et chronologie complète des 374 épisodes du manga.
           </p>
           <div class="card-footer">
             <span class="card-count">374 chapitres</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
         <!-- ── Carte 3 : Géopolitique & Lore ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Géopolitique et Lore">
-          <div class="card-icon" aria-hidden="true">🌍</div>
+          <span class="card-icon" aria-hidden="true">&#127757;</span>
           <h3 class="card-title">Géopolitique &amp; Lore</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
-            L'Empire de Kushan, le royaume de Midland, Falconia… Cartographiez les nations,
-            les factions et les systèmes de pouvoir qui façonnent le monde de Miura.
+            L'Empire de Kushan, le royaume de Midland, Falconia… Nations, factions,
+            religions et systèmes de pouvoir du monde de Miura.
           </p>
           <div class="card-footer">
-            <span class="card-count">Nations, royaumes, religions</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-count">Nations &amp; Royaumes</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
         <!-- ── Carte 4 : Bestiaire ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Bestiaire">
-          <div class="card-icon" aria-hidden="true">🦇</div>
+          <span class="card-icon" aria-hidden="true">&#128054;</span>
           <h3 class="card-title">Bestiaire</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
-            Apôtres, trolls, démons de la Causalité… Référencez les créatures de l'ombre,
-            leurs origines, leurs formes et leur place dans la cosmologie des Godhand.
+            Apôtres, trolls, démons de la Causalité… Créatures de l'ombre, leurs origines,
+            formes et place dans la cosmologie des Godhand.
           </p>
           <div class="card-footer">
             <span class="card-count">Créatures &amp; Apôtres</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
         <!-- ── Carte 5 : Galerie & Artwork ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Galerie et Artwork">
-          <div class="card-icon" aria-hidden="true">🎨</div>
+          <span class="card-icon" aria-hidden="true">&#127912;</span>
           <h3 class="card-title">Galerie &amp; Artwork</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
             Couvertures iconiques, illustrations couleur, planches maîtresses…
-            Un espace dédié à l'art monumental de Kentaro Miura, maître de l'encre et du détail.
+            L'art monumental de Kentaro Miura, maître de l'encre et du détail.
           </p>
           <div class="card-footer">
-            <span class="card-count">Planches &amp; illustrations</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-count">Planches &amp; Illustrations</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
         <!-- ── Carte 6 : Citations & Philosophie ── -->
         <a class="pillar-card" href="#" role="listitem" aria-label="Section Citations et Philosophie">
-          <div class="card-icon" aria-hidden="true">✦</div>
+          <span class="card-icon" aria-hidden="true">&#10022;</span>
           <h3 class="card-title">Citations &amp; Philosophie</h3>
+          <div class="card-divider" aria-hidden="true"></div>
           <p class="card-desc">
-            Le destin, le rêve, la solitude, la bête intérieure… Explorez les thèmes
-            philosophiques de Berserk à travers ses répliques les plus marquantes.
+            Destin, rêve, solitude, bête intérieure… Les thèmes philosophiques de Berserk
+            à travers ses répliques les plus marquantes.
           </p>
           <div class="card-footer">
             <span class="card-count">100+ citations</span>
-            <span class="card-arrow" aria-hidden="true">→</span>
+            <span class="card-arrow" aria-hidden="true">&#8594;</span>
           </div>
         </a>
 
       </div><!-- /pillars-grid -->
 
-    </section><!-- /pillars-section -->
-
-  </main>
+    </main><!-- /main-content -->
 
 
-  <!-- ══════════════════════════════════════════════════════════
-       FOOTER — pied de page
-       ══════════════════════════════════════════════════════════ -->
+    <!-- ──────────────────────────────────────────────────────────
+         SIDEBAR (droite, ~25%)
+         Widgets empilés style fan-blog années 2000.
+         ──────────────────────────────────────────────────────── -->
+    <aside class="sidebar" role="complementary" aria-label="Panneau latéral">
+
+      <!-- ── Widget 1 : Recherche ── -->
+      <div class="widget widget-search">
+        <div class="widget-header">
+          <span class="widget-icon" aria-hidden="true">&#128269;</span>
+          <h3>Rechercher une fiche</h3>
+        </div>
+        <div class="widget-body">
+          <div class="search-row" role="search">
+            <input
+              type="text"
+              placeholder="Ex : Griffith, Éclipse…"
+              aria-label="Rechercher une fiche"
+              autocomplete="off"
+            />
+            <button type="button">&#9658; Chercher</button>
+          </div>
+        </div>
+      </div><!-- /widget-search -->
+
+      <!-- ── Widget 2 : Fiches mises en avant ── -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-icon" aria-hidden="true">&#9733;</span>
+          <h3>Mise en avant</h3>
+        </div>
+        <div class="widget-body">
+          <ul class="widget-list">
+            <li>
+              <a href="#">Guts <span class="badge-new">FICHE</span></a>
+            </li>
+            <li><a href="#">Griffith</a></li>
+            <li><a href="#">Casca</a></li>
+            <li><a href="#">L'Éclipse</a></li>
+            <li><a href="#">Void</a></li>
+            <li><a href="#">Femto</a></li>
+            <li><a href="#">Skull Knight</a></li>
+            <li><a href="#">Slan</a></li>
+          </ul>
+        </div>
+      </div><!-- /widget mise en avant -->
+
+      <!-- ── Widget 3 : Citation de Guts ── -->
+      <div class="widget widget-quote">
+        <div class="widget-header">
+          <span class="widget-icon" aria-hidden="true">&#10006;</span>
+          <h3>Parole de Guts</h3>
+        </div>
+        <div class="widget-body">
+          <blockquote>
+            <p class="q-text">
+              « Si tu te retrouves seul dans les ténèbres, continue d'avancer.
+              Les cicatrices prouvent que tu as survécu. »
+            </p>
+            <cite class="q-author">— Guts, l'Épéiste Noir</cite>
+          </blockquote>
+        </div>
+      </div><!-- /widget-quote -->
+
+      <!-- ── Widget 4 : Dernières mises à jour ── -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-icon" aria-hidden="true">&#9654;</span>
+          <h3>Dernières fiches</h3>
+        </div>
+        <div class="widget-body">
+          <ul class="widget-updates">
+            <li>
+              <a class="update-name" href="#">Guts</a>
+              <span class="update-date">27/05/26</span>
+            </li>
+            <li>
+              <a class="update-name" href="#">L'Épée Dragon-Tueur</a>
+              <span class="update-date">25/05/26</span>
+            </li>
+            <li>
+              <a class="update-name" href="#">Griffith / Femto</a>
+              <span class="update-date">22/05/26</span>
+            </li>
+            <li>
+              <a class="update-name" href="#">La Marque du Sacrifice</a>
+              <span class="update-date">20/05/26</span>
+            </li>
+            <li>
+              <a class="update-name" href="#">Skull Knight</a>
+              <span class="update-date">18/05/26</span>
+            </li>
+          </ul>
+        </div>
+      </div><!-- /widget dernières fiches -->
+
+    </aside><!-- /sidebar -->
+
+  </div><!-- /page-wrapper -->
+
+
+  <!-- ============================================================
+       FOOTER — Pied de page
+       Mentions légales, copyright, hommage à Miura.
+       ============================================================ -->
   <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
 
-    <p class="footer-copy">
-      &copy; 2025 Berserk Hub &mdash; Site <span>non officiel</span>, à but non lucratif.
-      Berserk est la propriété de Kentaro Miura &amp; Hakusensha.
-    </p>
+      <!-- Séparateur décoratif -->
+      <div class="footer-separator" aria-hidden="true">⚔</div>
 
-    <p class="footer-tribute">
-      In memoriam &mdash; Kentaro Miura &mdash; 1966 &ndash; 2021
-    </p>
+      <!-- Hommage principal -->
+      <p class="footer-tribute">
+        In Memoriam &mdash; Kentaro Miura &mdash; 1966&ndash;2021
+      </p>
 
+      <!-- Mentions légales -->
+      <p class="footer-copy">
+        Berserk Hub est un site de fans non officiel, à but non lucratif.<br />
+        <em>Berserk</em> est la propriété exclusive de Kentaro Miura &amp; Hakusensha.<br />
+        Tout le contenu est utilisé à des fins d'hommage et d'encyclopédie.<br />
+        &copy; 2026 Berserk Hub &mdash; <a href="#">Mentions légales</a> &mdash; <a href="#">Contact</a>
+      </p>
+
+    </div>
   </footer><!-- /site-footer -->
 
 </body>
