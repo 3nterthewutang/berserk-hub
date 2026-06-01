@@ -1,372 +1,416 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Berserk Hub — Encyclopédie non officielle de Berserk, hommage à Kentaro Miura." />
-  <title>Berserk Hub — Encyclopédie Dark Fantasy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berserk Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  <!-- Feuille de styles principale -->
-  <link rel="stylesheet" href="css/style.css" />
+        body {
+            font-family: 'Cinzel', 'Georgia', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-  <!--
-  ╔══════════════════════════════════════════════════════╗
-  ║  SCRIPT : Citations aléatoires au chargement de la  ║
-  ║  page (tableau simple, aucune dépendance externe).  ║
-  ╚══════════════════════════════════════════════════════╝
-  -->
-  <script>
-    // ── Tableau des citations ─────────────────────────────
-    // Pour ajouter une citation : ajoute un objet { text, author }
-    const QUOTES = [
-      {
-        text: "Dans ce monde, la loi de l'acier et du sang est la seule vérité qui ne mente jamais.",
-        author: "Griffith"
-      },
-      {
-        text: "Je veux juste trouver un endroit où je peux mourir sans regret.",
-        author: "Guts"
-      },
-      {
-        text: "Rêver n'est pas un péché. Mais lorsqu'on rêve, on s'expose à la souffrance de voir ses rêves brisés.",
-        author: "Griffith"
-      },
-      {
-        text: "Un homme qui ne peut pas défendre ce à quoi il croit ne mérite pas de vivre pour y croire.",
-        author: "Guts"
-      },
-      {
-        text: "Il n'y a pas de paradis, ni de dieu unique pour nous guider. Seule l'obscurité demeure.",
-        author: "Void"
-      }
-    ];
+        /* Header agrandi a 160px pour maximiser l'impact de la banniere */
+        header {
+            height: 160px;
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.85)), url('https://images.alphacoders.com/605/605581.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 40px;
+            flex-shrink: 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
 
-    // ── Sélection aléatoire ──────────────────────────────
-    const idx = Math.floor(Math.random() * QUOTES.length);
+        header h1 {
+            color: #da1a1a;
+            font-size: 3rem;
+            letter-spacing: 7px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.9), 3px 3px 4px #000;
+        }
 
-    // ── Injection au chargement du DOM ──────────────────
-    document.addEventListener("DOMContentLoaded", function () {
-      const textEl   = document.getElementById("rnd-quote-text");
-      const authorEl = document.getElementById("rnd-quote-author");
-      if (textEl && authorEl) {
-        textEl.textContent   = "\u201C" + QUOTES[idx].text + "\u201D";
-        authorEl.textContent = "\u2014 " + QUOTES[idx].author;
-      }
-    });
-  </script>
+        .search-box {
+            background-color: rgba(21, 21, 21, 0.8);
+            border: 1px solid #252525;
+            padding: 6px;
+            border-radius: 4px;
+            display: flex;
+            gap: 6px;
+            width: 280px;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-box input {
+            flex: 1;
+            background-color: #0d0d0d;
+            border: 1px solid #333;
+            padding: 6px 10px;
+            color: #fff;
+            border-radius: 2px;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .search-box input:focus {
+            border-color: #da1a1a;
+        }
+
+        .search-box button {
+            background-color: #da1a1a;
+            color: white;
+            border: none;
+            padding: 0 12px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 3.2fr 1fr; 
+            gap: 20px;
+            padding: 20px 25px;
+            min-height: 0;
+        }
+
+        .left-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 0;
+        }
+
+        .cards-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 15px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .card {
+            background-color: #151515;
+            border: 1px solid #252525;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+        }
+
+        .card:hover {
+            border-color: #da1a1a;
+            box-shadow: 0 0 12px rgba(218, 26, 26, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .card-img-wrapper {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-img-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .card-title {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            z-index: 2;
+            text-shadow: 
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000;
+        }
+
+        .card:hover .card-title {
+            text-decoration: underline;
+            text-decoration-color: #da1a1a;
+            text-underline-offset: 5px;
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Credits epures et integres avec la mention 2026 */
+        .credits {
+            font-size: 0.8rem;
+            color: #555;
+            font-style: italic;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .credits span {
+            color: #8a1515;
+            font-weight: bold;
+        }
+
+        .artwork-btn {
+            background: linear-gradient(90deg, #1c1c1c, #3a1414);
+            border: 1px solid #da1a1a;
+            padding: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .artwork-btn:hover {
+            background: linear-gradient(90deg, #3a1414, #da1a1a);
+            box-shadow: 0 0 15px rgba(218, 26, 26, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        .quote-panel {
+            padding: 5px 0 10px 0;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #bbb;
+            line-height: 1.5;
+            flex-shrink: 0;
+            border-bottom: 1px solid #151515;
+        }
+
+        .quote-author {
+            display: block;
+            text-align: right;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: #da1a1a;
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        .info-panel {
+            flex: 1;
+            background-color: #151515;
+            border: 1px solid #252525;
+            border-radius: 4px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .info-panel h3 {
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 6px;
+        }
+
+        .info-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .info-date {
+            color: #da1a1a;
+            font-weight: bold;
+            font-size: 0.75rem;
+            margin-bottom: 2px;
+        }
+
+        .info-content::-webkit-scrollbar {
+            width: 3px;
+        }
+        .info-content::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .info-content::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+    </style>
 </head>
-
 <body>
 
-  <!-- ============================================================
-       BANNIÈRE PRINCIPALE (Header)
-       Grande bannière de fan-site : titre massif gothique,
-       texture métal rouillé simulée, ornements décoratifs.
-       ============================================================ -->
-  <header class="site-banner" role="banner">
-    <div class="banner-inner">
+    <header>
+        <h1>Berserk Hub</h1>
+        <div class="search-box">
+            <input type="text" placeholder="Rechercher dans le lore...">
+            <button>OK</button>
+        </div>
+    </header>
 
-      <!-- Ornements horizontaux (lignes + runes) -->
-      <div class="banner-ornament" aria-hidden="true">
-        <span class="banner-ornament-line"></span>
-        <span class="banner-ornament-rune">· ✦ ·</span>
-        <span class="banner-ornament-line right"></span>
-      </div>
+    <div class="main-container">
+        
+        <div class="left-content">
+            <section class="cards-section">
+                
+                <div class="card">
+                    <div class="card-title">Manga</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://i.ibb.co/5gGbWJCH/headermanga.jpg')"></div>
+                    </div>
+                </div>
 
-      <!-- Titre principal -->
-      <h1 class="banner-title">Berserk Hub</h1>
+                <div class="card">
+                    <div class="card-title">Chronologie</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://i.ibb.co/FkPFhw9m/headerchronologie.jpg')"></div>
+                    </div>
+                </div>
 
-      <!-- Sous-titre -->
-      <p class="banner-subtitle">
-        Encyclopédie non officielle &nbsp;·&nbsp; Hommage à Kentaro Miura
-      </p>
+                <div class="card">
+                    <div class="card-title">Encyclopédie</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://i.ibb.co/4DwKvNm/headerencyclopedie.jpg')"></div>
+                    </div>
+                </div>
 
-      <!-- Ligne déco du bas -->
-      <div class="banner-deco-bottom" aria-hidden="true">
-        <span></span>
-      </div>
+                <div class="card">
+                    <div class="card-title">Géopolitique</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://via.placeholder.com/300x400/1a1a1a/fff?text=Géopolitique')"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Cosmologie</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://via.placeholder.com/300x400/1a1a1a/fff?text=Cosmologie')"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Bestiaire</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://via.placeholder.com/300x400/1a1a1a/fff?text=Bestiaire')"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Arsenal</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://via.placeholder.com/300x400/1a1a1a/fff?text=Arsenal')"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Thématiques</div>
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('https://via.placeholder.com/300x400/1a1a1a/fff?text=Thématiques')"></div>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="bottom-row">
+                <div class="credits">
+                    © 2026 — In memorium — <span>Kentaro Miura (1966 - 2021)</span>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            
+            <div class="quote-panel">
+                "Même si nous assemblons minutieusement les morceaux brisés, cela ne signifie pas que ce qui a été détruit sera réparé."
+                <span class="quote-author">- Guts</span>
+            </div>
+
+            <div class="info-panel">
+                <h3>Informations</h3>
+                <div class="info-content">
+                    <div class="info-item">
+                        <div class="info-date">12/06</div>
+                        <p>Sortie du Chapitre 384.</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-date">01/06</div>
+                        <p>Mise à jour : Intégration des visuels pour les sections Manga, Chronologie et Encyclopédie.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artwork-btn">
+                Accéder à la Galerie / Artworks
+            </div>
+
+        </aside>
 
     </div>
-  </header><!-- /site-banner -->
-
-
-  <!-- ============================================================
-       BARRE DE NAVIGATION HORIZONTALE
-       Sticky sous la bannière, liens avec effet hover rouge sang.
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Navigation principale">
-    <div class="nav-inner">
-      <a href="#pillars" class="active">&#8962; Accueil</a>
-      <a href="#">Explorer</a>
-      <a href="#">Chronologie</a>
-      <a href="#">Théories</a>
-      <a href="#">À propos</a>
-    </div>
-  </nav><!-- /site-nav -->
-
-
-  <!-- ============================================================
-       WRAPPER PRINCIPAL — 2 colonnes (contenu + sidebar)
-       ============================================================ -->
-  <div class="page-wrapper">
-
-
-    <!-- ──────────────────────────────────────────────────────────
-         COLONNE PRINCIPALE (gauche, ~75%)
-         ────────────────────────────────────────────────────────── -->
-    <main class="main-content" role="main">
-
-      <!-- Barre de titre de la section principale -->
-      <div class="section-title-bar">
-        <span class="title-icon" aria-hidden="true">⚔</span>
-        <h2>Les Piliers du Hub</h2>
-      </div>
-
-      <!-- Citation héro avec attribution (injectée par JS au chargement) -->
-      <div class="hero-quote" role="complementary" aria-label="Citation du jour">
-        <p id="rnd-quote-text">Chargement de la citation…</p>
-        <cite id="rnd-quote-author"></cite>
-      </div>
-
-      <!-- Barre de recherche principale (visuel + fonctionnel HTML natif) -->
-      <div class="hero-search" role="search">
-        <input
-          type="text"
-          placeholder="Rechercher un personnage, un arc, une citation…"
-          aria-label="Rechercher dans Berserk Hub"
-          autocomplete="off"
-        />
-        <button type="button">&#128269; Chercher</button>
-      </div>
-
-      <!-- ────────────────────────────────────────────────────────
-           GRILLE DES 6 PILIERS
-           6 blocs cliquables, 3 colonnes sur desktop.
-           ──────────────────────────────────────────────────────── -->
-      <div class="pillars-grid" id="pillars" role="list" aria-label="Sections du hub">
-
-        <!-- ── Carte 1 : Personnages ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Personnages">
-          <span class="card-icon" aria-hidden="true">&#9876;</span>
-          <h3 class="card-title">Personnages</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            Guts, Griffith, Casca, Judeau, Void… Profils complets des protagonistes,
-            antagonistes et figures majeures qui peuplent l'univers de Berserk.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">60+ fiches</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-        <!-- ── Carte 2 : Chapitres & Arcs ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Chapitres et Arcs narratifs">
-          <span class="card-icon" aria-hidden="true">&#128218;</span>
-          <h3 class="card-title">Chapitres &amp; Arcs</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            De l'Arc du Faucon Noir à Falconia : résumés détaillés, analyses narratives
-            et chronologie complète des 374 épisodes du manga.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">374 chapitres</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-        <!-- ── Carte 3 : Géopolitique & Lore ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Géopolitique et Lore">
-          <span class="card-icon" aria-hidden="true">&#127757;</span>
-          <h3 class="card-title">Géopolitique &amp; Lore</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            L'Empire de Kushan, le royaume de Midland, Falconia… Nations, factions,
-            religions et systèmes de pouvoir du monde de Miura.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">Nations &amp; Royaumes</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-        <!-- ── Carte 4 : Bestiaire ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Bestiaire">
-          <span class="card-icon" aria-hidden="true">&#128054;</span>
-          <h3 class="card-title">Bestiaire</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            Apôtres, trolls, démons de la Causalité… Créatures de l'ombre, leurs origines,
-            formes et place dans la cosmologie des Godhand.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">Créatures &amp; Apôtres</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-        <!-- ── Carte 5 : Galerie & Artwork ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Galerie et Artwork">
-          <span class="card-icon" aria-hidden="true">&#127912;</span>
-          <h3 class="card-title">Galerie &amp; Artwork</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            Couvertures iconiques, illustrations couleur, planches maîtresses…
-            L'art monumental de Kentaro Miura, maître de l'encre et du détail.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">Planches &amp; Illustrations</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-        <!-- ── Carte 6 : Citations & Philosophie ── -->
-        <a class="pillar-card" href="#" role="listitem" aria-label="Section Citations et Philosophie">
-          <span class="card-icon" aria-hidden="true">&#10022;</span>
-          <h3 class="card-title">Citations &amp; Philosophie</h3>
-          <div class="card-divider" aria-hidden="true"></div>
-          <p class="card-desc">
-            Destin, rêve, solitude, bête intérieure… Les thèmes philosophiques de Berserk
-            à travers ses répliques les plus marquantes.
-          </p>
-          <div class="card-footer">
-            <span class="card-count">100+ citations</span>
-            <span class="card-arrow" aria-hidden="true">&#8594;</span>
-          </div>
-        </a>
-
-      </div><!-- /pillars-grid -->
-
-    </main><!-- /main-content -->
-
-
-    <!-- ──────────────────────────────────────────────────────────
-         SIDEBAR (droite, ~25%)
-         Widgets empilés style fan-blog années 2000.
-         ──────────────────────────────────────────────────────── -->
-    <aside class="sidebar" role="complementary" aria-label="Panneau latéral">
-
-      <!-- ── Widget 1 : Recherche ── -->
-      <div class="widget widget-search">
-        <div class="widget-header">
-          <span class="widget-icon" aria-hidden="true">&#128269;</span>
-          <h3>Rechercher une fiche</h3>
-        </div>
-        <div class="widget-body">
-          <div class="search-row" role="search">
-            <input
-              type="text"
-              placeholder="Ex : Griffith, Éclipse…"
-              aria-label="Rechercher une fiche"
-              autocomplete="off"
-            />
-            <button type="button">&#9658; Chercher</button>
-          </div>
-        </div>
-      </div><!-- /widget-search -->
-
-      <!-- ── Widget 2 : Fiches mises en avant ── -->
-      <div class="widget">
-        <div class="widget-header">
-          <span class="widget-icon" aria-hidden="true">&#9733;</span>
-          <h3>Mise en avant</h3>
-        </div>
-        <div class="widget-body">
-          <ul class="widget-list">
-            <li>
-              <a href="#">Guts <span class="badge-new">FICHE</span></a>
-            </li>
-            <li><a href="#">Griffith</a></li>
-            <li><a href="#">Casca</a></li>
-            <li><a href="#">L'Éclipse</a></li>
-            <li><a href="#">Void</a></li>
-            <li><a href="#">Femto</a></li>
-            <li><a href="#">Skull Knight</a></li>
-            <li><a href="#">Slan</a></li>
-          </ul>
-        </div>
-      </div><!-- /widget mise en avant -->
-
-      <!-- ── Widget 3 : Citation de Guts ── -->
-      <div class="widget widget-quote">
-        <div class="widget-header">
-          <span class="widget-icon" aria-hidden="true">&#10006;</span>
-          <h3>Parole de Guts</h3>
-        </div>
-        <div class="widget-body">
-          <blockquote>
-            <p class="q-text">
-              « Si tu te retrouves seul dans les ténèbres, continue d'avancer.
-              Les cicatrices prouvent que tu as survécu. »
-            </p>
-            <cite class="q-author">— Guts, l'Épéiste Noir</cite>
-          </blockquote>
-        </div>
-      </div><!-- /widget-quote -->
-
-      <!-- ── Widget 4 : Dernières mises à jour ── -->
-      <div class="widget">
-        <div class="widget-header">
-          <span class="widget-icon" aria-hidden="true">&#9654;</span>
-          <h3>Dernières fiches</h3>
-        </div>
-        <div class="widget-body">
-          <ul class="widget-updates">
-            <li>
-              <a class="update-name" href="#">Guts</a>
-              <span class="update-date">27/05/26</span>
-            </li>
-            <li>
-              <a class="update-name" href="#">L'Épée Dragon-Tueur</a>
-              <span class="update-date">25/05/26</span>
-            </li>
-            <li>
-              <a class="update-name" href="#">Griffith / Femto</a>
-              <span class="update-date">22/05/26</span>
-            </li>
-            <li>
-              <a class="update-name" href="#">La Marque du Sacrifice</a>
-              <span class="update-date">20/05/26</span>
-            </li>
-            <li>
-              <a class="update-name" href="#">Skull Knight</a>
-              <span class="update-date">18/05/26</span>
-            </li>
-          </ul>
-        </div>
-      </div><!-- /widget dernières fiches -->
-
-    </aside><!-- /sidebar -->
-
-  </div><!-- /page-wrapper -->
-
-
-  <!-- ============================================================
-       FOOTER — Pied de page
-       Mentions légales, copyright, hommage à Miura.
-       ============================================================ -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="footer-inner">
-
-      <!-- Séparateur décoratif -->
-      <div class="footer-separator" aria-hidden="true">⚔</div>
-
-      <!-- Hommage principal -->
-      <p class="footer-tribute">
-        In Memoriam &mdash; Kentaro Miura &mdash; 1966&ndash;2021
-      </p>
-
-      <!-- Mentions légales -->
-      <p class="footer-copy">
-        Berserk Hub est un site de fans non officiel, à but non lucratif.<br />
-        <em>Berserk</em> est la propriété exclusive de Kentaro Miura &amp; Hakusensha.<br />
-        Tout le contenu est utilisé à des fins d'hommage et d'encyclopédie.<br />
-        &copy; 2026 Berserk Hub &mdash; <a href="#">Mentions légales</a> &mdash; <a href="#">Contact</a>
-      </p>
-
-    </div>
-  </footer><!-- /site-footer -->
 
 </body>
 </html>
